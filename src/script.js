@@ -18,13 +18,14 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const particleTexture = textureLoader.load('/textures/particles/2.png')
 
 /**
  * Particles
  */
 // Geometry
 const particlesGeometry = new THREE.BufferGeometry()
-const count = 500
+const count = 5000
 const positions = new Float32Array(count * 3)
 for (let i = 0; i < count * 3; i++){
     positions[i] = (Math.random() - 0.5) * 10
@@ -32,9 +33,12 @@ for (let i = 0; i < count * 3; i++){
 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
 // Material
 const particlesMaterial = new THREE.PointsMaterial({
-    size: 0.02,
+    size: 0.05,
     sizeAttenuation: true
 })
+particlesMaterial.color = new THREE.Color("white")
+particlesMaterial.map = particleTexture
+
 // Points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 scene.add(particles)
