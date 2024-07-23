@@ -114,7 +114,13 @@ const tick = () =>
     // particles.rotation.y = elapsedTime * 0.1
     for (let i = 0; i < count; i++) {
         const i3 = i*3
-        particlesGeometry.attributes.position.array[i3+1] = Math.sin(elapsedTime*0.001 + i)
+
+        // for random movement
+        // particlesGeometry.attributes.position.array[i3+1] = Math.sin(elapsedTime*0.005 + i)
+
+        // for wave movement
+        const x = particlesGeometry.attributes.position.array[i3]
+        particlesGeometry.attributes.position.array[i3+1] = Math.sin(elapsedTime + x)
     }
 
     particlesGeometry.attributes.position.needsUpdate = true
