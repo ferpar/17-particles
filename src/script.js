@@ -25,7 +25,7 @@ const particleTexture = textureLoader.load('/textures/particles/2.png')
  */
 // Geometry
 const particlesGeometry = new THREE.BufferGeometry()
-const count = 5000
+const count = 50000
 const positions = new Float32Array(count * 3)
 for (let i = 0; i < count * 3; i++){
     positions[i] = (Math.random() - 0.5) * 10
@@ -33,11 +33,25 @@ for (let i = 0; i < count * 3; i++){
 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
 // Material
 const particlesMaterial = new THREE.PointsMaterial({
-    size: 0.05,
+    size: 0.06,
     sizeAttenuation: true
 })
-particlesMaterial.color = new THREE.Color("white")
+particlesMaterial.color = new THREE.Color("orange")
 particlesMaterial.map = particleTexture
+particlesMaterial.transparent = true
+particlesMaterial.alphaMap = particleTexture
+// Problem: the particles are not rendered in the correct order or above the cube
+// particlesMaterial.alphaTest = 0.001 // Solution 1: tells the GPU not to render the pixel if the alpha value is below 0.001
+// particlesMaterial.depthTest = false // Solution 2: tells the GPU not to test the depth of the pixel
+particlesMaterial.depthWrite = false // Solution 3: tells the GPU not to write the depth of the pixel
+
+particlesMaterial.blending = THREE.AdditiveBlending // Adds color resulting in a glowing effect, Caution: Performance heavy
+
+const cube = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshBasicMaterial()
+)
+scene.add(cube)
 
 // Points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
