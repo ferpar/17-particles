@@ -112,7 +112,7 @@ const tick = () =>
 
     // Update particles 
     // particles.rotation.y = elapsedTime * 0.1
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i++) { // This loop hits performance, for this use a shader
         const i3 = i*3
 
         // for random movement
